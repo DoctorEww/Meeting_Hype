@@ -7,13 +7,23 @@ import discord, sys
 
 with open('secrets.txt') as f: #Gotta get the goodies!
     content = f.readlines()
-print("Please enter your Discord username including the #")
-print("Example: DoctorEww#1337")
-discord_user = input()
+
+if (len(sys.argv) == 2):
+    discord_user = str(sys.argv[1])
+else:
+    print("Usage: ./bot.py <DISCORD_USERNAME>")
+    print("Please enter your Discord username including the #")
+    print("Example: DoctorEww#1337")
+    exit(0)
+
 TOKEN = content[0].strip("\n")
 GUILD = content[1].strip("\n")
 
-client = discord.Client()
+intents = discord.Intents.default()
+intents.members = True
+
+client = discord.Client(intents=intents)
+
 @client.event
 async def on_ready():
     for guild in client.guilds:
